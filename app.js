@@ -1,5 +1,5 @@
 // ── 認証 ──────────────────────────────────────────
-const PASSWORD = 'todo1234'; // ← ここでパスワードを変更できます
+const PASSWORD = 'todo123456'; // ← ここでパスワードを変更できます
 
 const loginScreen = document.getElementById('login-screen');
 const appEl = document.getElementById('app');

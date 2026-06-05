@@ -1,3 +1,49 @@
+// ── 認証 ──────────────────────────────────────────
+const PASSWORD = 'todo1234'; // ← ここでパスワードを変更できます
+
+const loginScreen = document.getElementById('login-screen');
+const appEl = document.getElementById('app');
+const passwordInput = document.getElementById('password-input');
+const loginBtn = document.getElementById('login-btn');
+const loginError = document.getElementById('login-error');
+const logoutBtn = document.getElementById('logout-btn');
+
+function showApp() {
+  loginScreen.style.display = 'none';
+  appEl.style.display = 'block';
+}
+
+function showLogin() {
+  loginScreen.style.display = 'flex';
+  appEl.style.display = 'none';
+  passwordInput.value = '';
+  loginError.textContent = '';
+}
+
+function tryLogin() {
+  if (passwordInput.value === PASSWORD) {
+    sessionStorage.setItem('auth', '1');
+    showApp();
+  } else {
+    loginError.textContent = 'パスワードが正しくありません。';
+    passwordInput.focus();
+  }
+}
+
+if (sessionStorage.getItem('auth') === '1') {
+  showApp();
+} else {
+  showLogin();
+}
+
+loginBtn.addEventListener('click', tryLogin);
+passwordInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
+logoutBtn.addEventListener('click', () => {
+  sessionStorage.removeItem('auth');
+  showLogin();
+});
+// ──────────────────────────────────────────────────
+
 let todos = JSON.parse(localStorage.getItem('todos') || '[]');
 let filter = 'all';
 

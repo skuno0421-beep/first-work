@@ -46,7 +46,7 @@ function spawnFloat(x, y, text) {
 function spawnMilestoneFloat(val) {
   const el = document.createElement('div');
   el.className = 'milestone-text';
-  el.textContent = `${val.toLocaleString()}ポイント獲得おめでとう！きっと褒美があるよ`;
+  el.innerHTML = `${val.toLocaleString()}ポイント獲得おめでとう！<br>きっと褒美があるよ`;
   el.style.left = '50%';
   el.style.top = '40%';
   floatsContainer.appendChild(el);

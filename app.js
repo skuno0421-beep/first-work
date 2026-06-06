@@ -23,6 +23,7 @@ const pointsRef = ref(db, 'bakaPoints');
 const bakaBtn = document.getElementById('baka-btn');
 const pointValue = document.getElementById('point-value');
 const resetBtn = document.getElementById('reset-btn');
+const forgiveBtn = document.getElementById('forgive-btn');
 const floatsContainer = document.getElementById('floats-container');
 const onlineBadge = document.getElementById('online-badge');
 
@@ -33,11 +34,11 @@ function popAnimation() {
   setTimeout(() => pointValue.classList.remove('pop'), 150);
 }
 
-function spawnFloat(x, y) {
+function spawnFloat(x, y, text) {
   const el = document.createElement('div');
   el.className = 'float-text';
-  el.textContent = '+1 ばか！';
-  el.style.left = (x - 40) + 'px';
+  el.textContent = text;
+  el.style.left = (x - 60) + 'px';
   el.style.top = (y - 20) + 'px';
   floatsContainer.appendChild(el);
   setTimeout(() => el.remove(), 1000);
@@ -54,7 +55,12 @@ onValue(pointsRef, (snapshot) => {
 
 bakaBtn.addEventListener('click', (e) => {
   runTransaction(pointsRef, (current) => (current ?? 0) + 1);
-  spawnFloat(e.clientX, e.clientY);
+  spawnFloat(e.clientX, e.clientY, '+1 ばか！');
+});
+
+forgiveBtn.addEventListener('click', (e) => {
+  runTransaction(pointsRef, (current) => Math.max(0, (current ?? 0) - 1));
+  spawnFloat(e.clientX, e.clientY, '❤️ 許してあげる！');
 });
 
 resetBtn.addEventListener('click', () => {

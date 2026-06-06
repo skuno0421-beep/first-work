@@ -1,10 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getDatabase, ref, onValue, runTransaction, set, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import emailjs from "https://cdn.jsdelivr.net/npm/@emailjs/browser@4/+esm";
 
-// ===================================================
-// ここにFirebaseの設定を貼り付けてください
-// Firebase Console > プロジェクト設定 > マイアプリ から取得
-// ===================================================
 const firebaseConfig = {
   apiKey: "AIzaSyBKC5M7gyOeI-rSBIgc5GdA1wOLyUSEA44",
   authDomain: "baka-point.firebaseapp.com",
@@ -14,7 +11,8 @@ const firebaseConfig = {
   messagingSenderId: "355775729937",
   appId: "1:355775729937:web:1351a699ce64ff068d7cb0"
 };
-// ===================================================
+
+emailjs.init("aq0x6GGbMqGwmBue-");
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
@@ -25,6 +23,8 @@ const pointValue = document.getElementById('point-value');
 const resetBtn = document.getElementById('reset-btn');
 const forgiveBtn = document.getElementById('forgive-btn');
 const floatsContainer = document.getElementById('floats-container');
+
+let isFirstLoad = true;
 
 function popAnimation() {
   pointValue.classList.remove('pop');
@@ -53,10 +53,25 @@ function spawnMilestoneFloat(val) {
   setTimeout(() => el.remove(), 3000);
 }
 
+function sendEmailNotification(fromPoints, toPoints) {
+  const change = toPoints - fromPoints;
+  emailjs.send("service_u8xa2ux", "template_3ecrzt9", {
+    from_points: fromPoints,
+    to_points: toPoints,
+    change: change > 0 ? `+${change}` : `${change}`,
+  });
+}
+
 // リアルタイムでポイントを監視
 onValue(pointsRef, (snapshot) => {
   const val = snapshot.val() ?? 0;
   const prev = parseInt(pointValue.textContent.replace(/,/g, '')) || 0;
+
+  if (!isFirstLoad && val !== prev) {
+    sendEmailNotification(prev, val);
+  }
+  isFirstLoad = false;
+
   pointValue.textContent = val.toLocaleString();
   if (val > prev) {
     popAnimation();

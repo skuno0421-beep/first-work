@@ -43,12 +43,25 @@ function spawnFloat(x, y, text) {
   setTimeout(() => el.remove(), 1000);
 }
 
+function spawnMilestoneFloat(val) {
+  const el = document.createElement('div');
+  el.className = 'milestone-text';
+  el.textContent = `${val.toLocaleString()}ポイント獲得おめでとう！きっと褒美があるよ`;
+  el.style.left = '50%';
+  el.style.top = '40%';
+  floatsContainer.appendChild(el);
+  setTimeout(() => el.remove(), 3000);
+}
+
 // リアルタイムでポイントを監視
 onValue(pointsRef, (snapshot) => {
   const val = snapshot.val() ?? 0;
   const prev = parseInt(pointValue.textContent.replace(/,/g, '')) || 0;
   pointValue.textContent = val.toLocaleString();
-  if (val > prev) popAnimation();
+  if (val > prev) {
+    popAnimation();
+    if (val % 10 === 0) spawnMilestoneFloat(val);
+  }
 });
 
 bakaBtn.addEventListener('click', (e) => {

@@ -127,6 +127,7 @@ h1 {
   -webkit-appearance: none;
   appearance: none;
   padding: 0;
+  margin-left: 20px;
   cursor: pointer;
   display: flex;
   align-items: center;

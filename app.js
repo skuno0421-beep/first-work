@@ -25,6 +25,8 @@ const forgiveBtn = document.getElementById('forgive-btn');
 const floatsContainer = document.getElementById('floats-container');
 
 let lastKnownValue = null;
+let emailDebounceTimer = null;
+let emailFrom = null;
 
 function popAnimation() {
   pointValue.classList.remove('pop');
@@ -73,13 +75,23 @@ onValue(pointsRef, (snapshot) => {
   }
 
   if (val !== lastKnownValue) {
-    sendEmailNotification(lastKnownValue, val);
-    if (val > lastKnownValue) {
+    const prev = lastKnownValue;
+    lastKnownValue = val;
+    pointValue.textContent = val.toLocaleString();
+
+    if (val > prev) {
       popAnimation();
       if (val % 10 === 0) spawnMilestoneFloat(val);
     }
-    lastKnownValue = val;
-    pointValue.textContent = val.toLocaleString();
+
+    // 値が落ち着いてから1通だけ送信（1秒デバウンス）
+    if (!emailDebounceTimer) emailFrom = prev;
+    clearTimeout(emailDebounceTimer);
+    emailDebounceTimer = setTimeout(() => {
+      sendEmailNotification(emailFrom, val);
+      emailDebounceTimer = null;
+      emailFrom = null;
+    }, 1000);
   }
 });
 

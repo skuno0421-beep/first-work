@@ -119,36 +119,6 @@ h1 {
   background: rgba(255,255,255,0.35);
 }
 
-.online-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(255,255,255,0.2);
-  border: 1px solid rgba(255,255,255,0.4);
-  color: #fff;
-  font-size: 0.85rem;
-  padding: 5px 14px;
-  border-radius: 50px;
-  margin-bottom: 28px;
-}
-
-.online-badge.hidden {
-  visibility: hidden;
-}
-
-.dot {
-  width: 8px;
-  height: 8px;
-  background: #4ade80;
-  border-radius: 50%;
-  animation: pulse 1.5s infinite;
-  flex-shrink: 0;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.4; }
-}
 
 /* 浮かび上がるポイント表示 */
 #floats-container {

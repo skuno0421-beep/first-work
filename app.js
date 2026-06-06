@@ -25,7 +25,6 @@ const pointValue = document.getElementById('point-value');
 const resetBtn = document.getElementById('reset-btn');
 const forgiveBtn = document.getElementById('forgive-btn');
 const floatsContainer = document.getElementById('floats-container');
-const onlineBadge = document.getElementById('online-badge');
 
 function popAnimation() {
   pointValue.classList.remove('pop');
@@ -49,7 +48,6 @@ onValue(pointsRef, (snapshot) => {
   const val = snapshot.val() ?? 0;
   const prev = parseInt(pointValue.textContent.replace(/,/g, '')) || 0;
   pointValue.textContent = val.toLocaleString();
-  onlineBadge.classList.remove('hidden');
   if (val > prev) popAnimation();
 });
 
@@ -59,7 +57,11 @@ bakaBtn.addEventListener('click', (e) => {
 });
 
 forgiveBtn.addEventListener('click', (e) => {
-  runTransaction(pointsRef, (current) => Math.max(0, (current ?? 0) - 1));
+  runTransaction(pointsRef, (current) => {
+    const cur = current ?? 0;
+    if (cur <= 0) return cur; // 0以下は変更しない
+    return cur - 1;
+  });
   spawnFloat(e.clientX, e.clientY, '❤️ 許してあげる！');
 });
 

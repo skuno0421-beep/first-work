@@ -6,13 +6,13 @@ import { getDatabase, ref, onValue, runTransaction, set } from "https://www.gsta
 // Firebase Console > プロジェクト設定 > マイアプリ から取得
 // ===================================================
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyBKC5M7gyOeI-rSBIgc5GdA1wOLyUSEA44",
+  authDomain: "baka-point.firebaseapp.com",
+  databaseURL: "https://baka-point-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "baka-point",
+  storageBucket: "baka-point.firebasestorage.app",
+  messagingSenderId: "355775729937",
+  appId: "1:355775729937:web:1351a699ce64ff068d7cb0"
 };
 // ===================================================
 

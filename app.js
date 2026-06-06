@@ -1,13 +1,30 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, onValue, runTransaction, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+// ===================================================
+// ここにFirebaseの設定を貼り付けてください
+// Firebase Console > プロジェクト設定 > マイアプリ から取得
+// ===================================================
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+  databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+// ===================================================
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const pointsRef = ref(db, 'bakaPoints');
+
 const bakaBtn = document.getElementById('baka-btn');
 const pointValue = document.getElementById('point-value');
 const resetBtn = document.getElementById('reset-btn');
 const floatsContainer = document.getElementById('floats-container');
-
-let points = parseInt(localStorage.getItem('baka-points') || '0');
-
-function updateDisplay() {
-  pointValue.textContent = points.toLocaleString();
-}
+const onlineBadge = document.getElementById('online-badge');
 
 function popAnimation() {
   pointValue.classList.remove('pop');
@@ -26,19 +43,21 @@ function spawnFloat(x, y) {
   setTimeout(() => el.remove(), 1000);
 }
 
+// リアルタイムでポイントを監視
+onValue(pointsRef, (snapshot) => {
+  const val = snapshot.val() ?? 0;
+  const prev = parseInt(pointValue.textContent.replace(/,/g, '')) || 0;
+  pointValue.textContent = val.toLocaleString();
+  onlineBadge.classList.remove('hidden');
+  if (val > prev) popAnimation();
+});
+
 bakaBtn.addEventListener('click', (e) => {
-  points++;
-  localStorage.setItem('baka-points', points);
-  updateDisplay();
-  popAnimation();
+  runTransaction(pointsRef, (current) => (current ?? 0) + 1);
   spawnFloat(e.clientX, e.clientY);
 });
 
 resetBtn.addEventListener('click', () => {
   if (!confirm('ポイントをリセットしますか？')) return;
-  points = 0;
-  localStorage.setItem('baka-points', 0);
-  updateDisplay();
+  set(pointsRef, 0);
 });
-
-updateDisplay();

@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, onValue, runTransaction, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getDatabase, ref, onValue, runTransaction, set, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 // ===================================================
 // ここにFirebaseの設定を貼り付けてください
@@ -56,13 +56,13 @@ bakaBtn.addEventListener('click', (e) => {
   spawnFloat(e.clientX, e.clientY, '+1 ばか！');
 });
 
-forgiveBtn.addEventListener('click', (e) => {
-  runTransaction(pointsRef, (current) => {
-    const cur = current ?? 0;
-    if (cur <= 0) return cur; // 0以下は変更しない
-    return cur - 1;
-  });
+forgiveBtn.addEventListener('click', async (e) => {
   spawnFloat(e.clientX, e.clientY, '❤️ 許してあげる！');
+  const snapshot = await get(pointsRef);
+  const cur = snapshot.val() ?? 0;
+  if (cur > 0) {
+    set(pointsRef, cur - 1);
+  }
 });
 
 resetBtn.addEventListener('click', () => {

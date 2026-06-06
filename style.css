@@ -120,15 +120,24 @@ h1 {
 #forgive-btn {
   background: none;
   border: none;
+  outline: none;
+  box-shadow: none;
+  -webkit-appearance: none;
+  appearance: none;
   font-size: 2.2rem;
   line-height: 1;
   cursor: pointer;
   transition: transform 0.15s;
   padding: 0;
+  align-self: center;
 }
 
 #forgive-btn:hover {
   transform: scale(1.2);
+}
+
+#forgive-btn:focus {
+  outline: none;
 }
 
 

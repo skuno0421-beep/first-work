@@ -102,8 +102,7 @@ h1 {
   justify-content: center;
 }
 
-#reset-btn,
-#forgive-btn {
+#reset-btn {
   background: rgba(255,255,255,0.2);
   border: 2px solid rgba(255,255,255,0.4);
   color: #fff;
@@ -114,9 +113,28 @@ h1 {
   transition: background 0.2s;
 }
 
-#reset-btn:hover,
+#reset-btn:hover {
+  background: rgba(255,255,255,0.35);
+}
+
+#forgive-btn {
+  background: rgba(255,255,255,0.2);
+  border: 2px solid rgba(255,255,255,0.4);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 #forgive-btn:hover {
   background: rgba(255,255,255,0.35);
+  transform: scale(1.1);
 }
 
 

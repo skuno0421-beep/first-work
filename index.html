@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ばかーポイント</title>
+  <link rel="stylesheet" href="style.css?v=2">
+</head>
+<body>
+  <div class="container">
+    <h1>ばかーポイント</h1>
+
+    <div class="point-display">
+      <span id="point-value">---</span>
+      <span class="point-unit">ポイント</span>
+    </div>
+
+    <button id="baka-btn">
+      <span class="btn-emoji">🤪</span>
+      <span class="btn-text">ばか！</span>
+    </button>
+
+    <div id="floats-container"></div>
+
+    <div class="actions">
+      <button id="reset-btn" style="margin-right:24px;">リセット</button>
+      <button id="forgive-btn"><img src="heart.svg" alt="許してあげる" width="36" height="36"></button>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
